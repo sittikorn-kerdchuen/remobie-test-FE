@@ -1,5 +1,5 @@
 import React from 'react'
-import image from '../../public/hero.jpg'
+import image from '../img/hero.jpg'
 import { FaMobileAlt, FaCalendarAlt, FaClipboardList, FaShoppingCart, FaArrowRight } from "react-icons/fa";
 
 
