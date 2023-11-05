@@ -27,8 +27,8 @@ const Main = () => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/')
-        const responseBrand = await axios.get('http://localhost:8080/brand')
+        const response = await axios.get(import.meta.env.VITE_APP_BACKEND_URL)
+        const responseBrand = await axios.get(import.meta.env.VITE_APP_BACKEND_URL+'brand')
 
         setProducts(response.data)
         setBrandData(responseBrand.data)
