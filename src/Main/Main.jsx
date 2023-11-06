@@ -45,7 +45,7 @@ const Main = () => {
 
   return (
     <main className=' p-20   bg-zinc-100'>
-      <h2 className='text-center text-3xl mb-10'>เลือกซื้อสินค้าที่ใช่สำหรับคุณ ได้ที่นี่</h2>
+      <h2 className='text-center text-3xl mb-10'>เลือกขายสินค้าที่ใช่สำหรับคุณ ได้ที่นี่</h2>
       <section className='flex justify-center'>
         <div className='p-5 bg-[#00CDAC] rounded-l-2xl w-5/12'>
           <ul className='grid-cols-2'>
