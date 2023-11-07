@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import './Main.css'
+// import components below this
+import Detail from './Detail'
 // import image
 import apple from '../../img/apple.png'
 import samsung from '../../img/samsung.png'
@@ -11,119 +12,68 @@ import mi from '../../img/mi.png'
 import huawei from '../../img/huawei.png'
 import oneplus from '../../img/oneplus.png'
 
-
-
 const Main = () => {
-
-  const [products, setProducts] = useState([])
-  const [brandData, setBrandData] = useState([])
-  const [productName, setProductName] = useState('iphone 15 pro max')
-  const [brand, setBrand] = useState('APPLE')
-  const [grade, setGrade] = useState('A')
-  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
+    const [brand, setBrand] = useState("")
+    const [productName, setProductName] = useState("")
+    const [productBrand, setProductBrand] = useState([])
 
 
+    useEffect(() => {
+        const loadData = async () => {
+            try {
+                // const response = await axios.get(import.meta.env.VITE_APP_BACKEND_URL)
+                const responseBrand = await axios.get(import.meta.env.VITE_APP_BACKEND_URL + 'brand')
 
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        const response = await axios.get(import.meta.env.VITE_APP_BACKEND_URL)
-        const responseBrand = await axios.get(import.meta.env.VITE_APP_BACKEND_URL+'brand')
+                // setProducts(response.data)
+                setProductBrand(responseBrand.data)
+                console.log('object :>> ', productBrand);
+            } catch (error) {
+                console.error(error)
+            }
+        }
+        loadData();
+    }, [])
 
-        setProducts(response.data)
-        setBrandData(responseBrand.data)
-      } catch (error) {
-        console.error(error)
-      }
-    }
-    loadData();
-  }, [brand])
+    return (
+        <main>
+            <h2 className='text-3xl text-center my-5'>เลือกแบรนด์ที่ต้องการขาย</h2>
+            <section className='grid grid-cols-4 justify-center w-[800px] mx-auto gap-2 my-5'>
+                <div className='bg-[#96F4DE]  p-2  h-[100px] rounded-xl hover:bg-[#00CDAC] hover:duration-300'><button type="button" onClick={() => setBrand("APPLE")} className='w-full'><img src={apple} className='w-full h-[80px] object-contain' alt="apple" /></button></div>
+                <div className='bg-[#96F4DE]  p-2  h-[100px] rounded-xl hover:bg-[#00CDAC] hover:duration-300'><button type="button" onClick={() => setBrand("HUAWEI")} className='w-full'><img src={huawei} className=' object-contain w-full h-[80px] ' alt="huawei" /></button></div>
+                <div className='bg-[#96F4DE]  p-2  h-[100px] rounded-xl hover:bg-[#00CDAC] hover:duration-300'><button type="button" onClick={() => setBrand("MI")} className='w-full'><img src={mi} className=' object-contain w-full h-[80px]' alt="mi" /></button></div>
+                <div className='bg-[#96F4DE]  p-2  h-[100px] rounded-xl hover:bg-[#00CDAC] hover:duration-300'><button type="button" onClick={() => setBrand("ONEPLUS")} className='w-full'><img src={oneplus} className=' object-contain w-full h-[80px]' alt="oneplus" /></button></div>
+                <div className='bg-[#96F4DE]  p-2  h-[100px] rounded-xl hover:bg-[#00CDAC] hover:duration-300 overflow-hidden'><button type="button" onClick={() => setBrand("SAMSUNG")} className='w-full'><img src={samsung} className=' object-contain scale-150 w-full h-[80px]' alt="samsung" /></button></div>
+                <div className='bg-[#96F4DE]  p-2  h-[100px] rounded-xl hover:bg-[#00CDAC] hover:duration-300 overflow-hidden'><button type="button" onClick={() => setBrand("OPPO")} className='w-full'><img src={oppo} className=' object-contain w-full h-[80px] scale-125 ' alt="oppo" /></button></div>
+                <div className='bg-[#96F4DE]  p-2  h-[100px] rounded-xl hover:bg-[#00CDAC] hover:duration-300'><button type="button" onClick={() => setBrand("REALME")} className='w-full'><img src={realme} className=' object-contain w-full h-[80px] px-5' alt="realme" /></button></div>
+                <div className='bg-[#96F4DE]  p-2  h-[100px] rounded-xl hover:bg-[#00CDAC] hover:duration-300'><button type="button" onClick={() => setBrand("VIVO")} className='w-full'><img src={vivo} className=' object-contain w-full h-[80px] px-5 scale-90' alt="vivo" /></button></div>
+            </section>
 
-  // Calculate the discount percentage based on the current month and a 4-month cycle
-  const discountCycle = 4;
-  const discountPercentage = ((currentMonth - 1) % discountCycle) * 5;
+            <section>
+                <h2 className='text-3xl text-center my-10'>เลือกรุ่นที่ต้องการขาย</h2>
+                <div className=' bg-white rounded-tr-xl grid grid-cols-8 my-0 mx-auto px-40'>
+                    {productBrand?.map((item, idx) => {
+                        if (item.brand_name === brand) {
+                            return (
+                                <button key={idx} type="button" onClick={() => setProductName(item.product_name)}>
+                                    <div className='flex flex-col justify-between   items-center  mb-5 hover:scale-110 hover:duration-300' >
+                                        <img src={item.image} alt={item.brand_name} className='w-full ' />
+                                        <p className='text-center text-sm text-zinc-400 px-1   w-[150px]'>{item.product_name}</p>
+                                    </div>
+                                </button>
+                            );
+                        }
+                        return null;
+                    })}
+                </div>
+            </section>
 
-  return (
-    <main className=' p-20   bg-zinc-100'>
-      <h2 className='text-center text-3xl mb-10'>เลือกขายสินค้าที่ใช่สำหรับคุณ ได้ที่นี่</h2>
-      <section className='flex justify-center'>
-        <div className='p-5 bg-[#00CDAC] rounded-l-2xl w-5/12'>
-          <ul className='grid-cols-2'>
-            <li><button type="button"><img src={apple} alt="apple" onClick={() => setBrand('APPLE')} className='w-[150px]  hover:bg-[#01C1A2] rounded-xl' /></button></li>
-            <li><button type="button"><img src={samsung} alt="samsung" onClick={() => setBrand('SAMSUNG')} className='w-[150px] h-[100px] object-contain  hover:bg-[#01C1A2] rounded-xl' /></button></li>
-            <li><button type="button"><img src={oppo} alt="oppo" onClick={() => setBrand('OPPO')} className='w-[150px] h-[100px] object-contain  hover:bg-[#01C1A2] rounded-xl' /></button></li>
-            <li><button type="button"><img src={vivo} alt="vivo" onClick={() => setBrand('VIVO')} className='w-[150px] h-[100px] object-contain  px-2 hover:bg-[#01C1A2] rounded-xl' /></button></li>
-            <li><button type="button"><img src={realme} alt="realme" onClick={() => setBrand('REALME')} className='w-[150px] h-[100px] object-contain  hover:bg-[#01C1A2] rounded-xl p-2' /></button></li>
-            <li><button type="button"><img src={mi} alt="mi" onClick={() => setBrand('MI')} className='w-[150px] h-[100px] object-contain  hover:bg-[#01C1A2] rounded-xl' /></button></li>
-            <li><button type="button"><img src={huawei} alt="huawei" onClick={() => setBrand('HUAWEI')} className='w-[150px] h-[100px] object-contain hover:bg-[#01C1A2] rounded-xl p-2' /></button></li>
-            <li><button type="button"><img src={oneplus} alt="oneplus" onClick={() => setBrand('ONEPLUS')} className='w-[150px] h-[100px] object-contain  hover:bg-[#01C1A2] rounded-xl' /></button></li>
-          </ul>
-        </div>
+            <Detail productBrand = {productBrand} productName = {productName} />
 
-        <div className='bg-[#96F4DE] rounded-r-xl overflow-hidden'>
-
-          <div className=' bg-white rounded-tr-xl flex  overflow-x-auto my-0 mx-auto'>
-            {brandData?.map((item, idx) => {
-              if (item.brand_name === brand) {
-                return (
-                  <button key={idx} type="button" onClick={() => setProductName(item.product_name)}>
-                    <div className='flex flex-col justify-between   items-center  mb-5 hover:scale-110 hover:duration-300' >
-                      <img src={item.image} alt={item.brand_name} className='w-full ' />
-                      <p className='text-center text-sm text-zinc-400 px-1   w-[150px]'>{item.product_name}</p>
-                    </div>
-                  </button>
-                );
-              }
-              return null;
-            })}
-          </div>
-
-          <div className=' flex justify-end'>
-            <div className=' p-3 rounded-bl-xl bg-zinc-300 shadow-md '>
-              <label htmlFor="price" >สภาพสินค้า </label>
-              <select name="price" id="" className=' bg-zinc-300' onClick={(e) => setGrade(e.target.value)}>
-                <option value="A">เกรด A</option>
-                <option value="B">เกรด B</option>
-                <option value="C">เกรด C</option>
-                <option value="D">เกรด D</option>
-              </select>
-            </div>
-          </div>
-
-          <div className='mb-10'>
-            <div className='grid grid-flow-row grid-cols-8 p-2 gap-2'>
-              {products.map((item, idx) => {
-                if (brand === item.brand_name && grade === item.grade && productName === item.product_name) {
-                  // Calculate the discounted price
-                  const discountedPrice = item.price - (item.price * (discountPercentage / 100));
-
-                  return (
-                    <div key={idx} className='rounded-xl overflow-hidden shadow-lg'>
-                      <img src={item.image} alt={item.product_name} />
-                      <div className='text-center bg-white flex flex-col gap-5 px-2'>
-                        <p>{item.product_name}</p>
-                        <p className='text-sm text-zinc-600'>{item.detail}</p>
-                        <p>
-                          <span className='text-sm line-through'>{item.price}</span> {'฿ ' + discountedPrice}
-                          <p>discount {discountPercentage} %</p>
-                        </p>
-                      </div>
-
-                    </div>
-                  )
-                } return null;
-              })
-
-              }
-
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-    </main>
-  )
+            <section>
+                
+            </section>
+        </main>
+    )
 }
 
 export default Main
