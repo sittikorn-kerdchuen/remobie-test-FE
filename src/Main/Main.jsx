@@ -16,15 +16,13 @@ const Main = () => {
     const [brand, setBrand] = useState("")
     const [productName, setProductName] = useState("")
     const [productBrand, setProductBrand] = useState([])
+    const [step, setStep] = useState(1)
 
 
     useEffect(() => {
         const loadData = async () => {
             try {
-                // const response = await axios.get(import.meta.env.VITE_APP_BACKEND_URL)
                 const responseBrand = await axios.get(import.meta.env.VITE_APP_BACKEND_URL + 'brand')
-
-                // setProducts(response.data)
                 setProductBrand(responseBrand.data)
                 console.log('object :>> ', productBrand);
             } catch (error) {
@@ -54,7 +52,7 @@ const Main = () => {
                     {productBrand?.map((item, idx) => {
                         if (item.brand_name === brand) {
                             return (
-                                <button key={idx} type="button" onClick={() => setProductName(item.product_name)}>
+                                <button key={idx} type="button" onClick={() => (setProductName(item.product_name),setStep(2))}>
                                     <div className='flex flex-col justify-between   items-center  mb-5 hover:scale-110 hover:duration-300' >
                                         <img src={item.image} alt={item.brand_name} className='w-full ' />
                                         <p className='text-center text-sm text-zinc-400 px-1   w-[150px]'>{item.product_name}</p>
@@ -67,11 +65,10 @@ const Main = () => {
                 </div>
             </section>
 
+            {step === 2 && 
             <Detail productBrand = {productBrand} productName = {productName} />
+            }
 
-            <section>
-                
-            </section>
         </main>
     )
 }
