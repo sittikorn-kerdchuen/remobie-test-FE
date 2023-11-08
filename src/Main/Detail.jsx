@@ -14,6 +14,9 @@ const Detail = ({ productBrand, productName }) => {
     const [totalCost, setTotalCost] = useState()
     const [selected, setSelected] = useState(false)
     const [step, setStep] = useState(1);
+    const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
+    const discountCycle = 4;
+    const discountPercentage = ((currentMonth - 1) % discountCycle) * 1000;
 
     const capacityHandle = (e) => {
         setCapacity(e);
@@ -76,19 +79,19 @@ const Detail = ({ productBrand, productName }) => {
         }
 
         if (capacity === 256) {
-            const price = 40000
+            const price = 40000 - discountPercentage
             const totalCost = calulatePercen * price * 0.01
             setTotalCost(totalCost)
         } else if (capacity === 512) {
-            const price = 50000
+            const price = 50000 - discountPercentage
             const totalCost = calulatePercen * price * 0.01
             setTotalCost(totalCost)
         } else if (capacity === 1024) {
-            const price = 60000
+            const price = 60000 - discountPercentage
             const totalCost = calulatePercen * price * 0.01
             setTotalCost(totalCost)
         }
-        setStep(prev=>prev+1)
+        setStep(prev => prev + 1)
 
     }
 
@@ -259,33 +262,33 @@ const Detail = ({ productBrand, productName }) => {
             }
 
             {step === 9 &&
-            <section>
-            <div className='flex '>
-                <div className='mx-auto border-4 border-[#00CDAC] rounded-xl py-5 px-20 mt-10'>
-                    {productBrand.map((item, idx) => {
-                        if (item.product_name === productName) {
-                            return (
-                                <div key={idx} className=''>
-                                    <img src={item.image} alt={productName} />
-                                    <h2 className='text-center'>{productName}</h2>
-                                    <p className='text-center text-xs'>ความจุ {capacity} gb</p>
-                                    <p className='text-center text-xl'>Grade</p>
-                                    <p className='text-center text-8xl'>{grade}</p>
-                                    <p className='text-center'>ราคาประเมิน : <span className='text-3xl'>{totalCost}</span> บาท</p>
-                                </div>
-                            )
-                        }
-                    })}
+                <section>
+                    <div className='flex '>
+                        <div className='mx-auto border-4 border-[#00CDAC] rounded-xl py-5 px-20 mt-10'>
+                            {productBrand.map((item, idx) => {
+                                if (item.product_name === productName) {
+                                    return (
+                                        <div key={idx} className=''>
+                                            <img src={item.image} alt={productName} />
+                                            <h2 className='text-center'>{productName}</h2>
+                                            <p className='text-center text-xs'>ความจุ {capacity} gb</p>
+                                            <p className='text-center text-xl'>Grade</p>
+                                            <p className='text-center text-8xl'>{grade}</p>
+                                            <p className='text-center'>ราคาประเมิน : <span className='text-3xl'>{totalCost}</span> บาท</p>
+                                        </div>
+                                    )
+                                }
+                            })}
 
-                </div>
+                        </div>
 
 
 
-            </div>
-            <div className='p-10 mx-auto'>
-                <button type='button' className='border-2 border-[#00CDAC] px-5 py-2 text-xl rounded-xl block mx-auto hover:bg-[#00CDAC] hover:outline-offset-4 hover:outline hover:outline-[#00CDAC] hover:duration-100'>ติดต่อเรา เพื่อรับข้อเสนอนี้</button>
-            </div>
-        </section>
+                    </div>
+                    <div className='p-10 mx-auto'>
+                        <button type='button' className='border-2 border-[#00CDAC] px-5 py-2 text-xl rounded-xl block mx-auto hover:bg-[#00CDAC] hover:outline-offset-4 hover:outline hover:outline-[#00CDAC] hover:duration-100'>ติดต่อเรา เพื่อรับข้อเสนอนี้</button>
+                    </div>
+                </section>
             }
 
 
