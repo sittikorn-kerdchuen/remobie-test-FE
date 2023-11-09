@@ -60,8 +60,9 @@ const Detail = ({ productBrand, productName }) => {
     const calculateHandle = (capacity, models, warranty, body, screen, display, accessories, option) => {
 
         const countOption = option.reduce((count, value) => count + (value ? 1 : 0), 0);
-        const damagesPercen = models + warranty + body + screen + display + accessories + countOption
+        const damagesPercen = models + warranty + body + screen + display + accessories + (countOption * 5)
         const calulatePercen = 100 - damagesPercen
+        console.log('calulatePercen :>> ', calulatePercen);
 
         switch (true) {
             case calulatePercen >= 81:
@@ -73,8 +74,11 @@ const Detail = ({ productBrand, productName }) => {
             case calulatePercen >= 41:
                 setGrade('C')
                 break;
+            case calulatePercen >= 1:
+                setGrade('D')
+                break;
 
-            default: setGrade('D')
+            default: setGrade('ไม่สามารถรับซื้อได้')
                 break;
         }
 
@@ -273,8 +277,8 @@ const Detail = ({ productBrand, productName }) => {
                                             <h2 className='text-center'>{productName}</h2>
                                             <p className='text-center text-xs'>ความจุ {capacity} gb</p>
                                             <p className='text-center text-xl'>Grade</p>
-                                            <p className='text-center text-8xl'>{grade}</p>
-                                            <p className='text-center'>ราคาประเมิน : <span className='text-3xl'>{totalCost}</span> บาท</p>
+                                            <p className={grade === 'ไม่สามารถรับซื้อได้'?'text-center text-4xl':'text-center text-8xl'}>{grade}</p>
+                                            <p className={totalCost < 0 ?'hidden':'text-center'}>ราคาประเมิน : <span className='text-3xl'>{totalCost}</span> บาท</p>
                                         </div>
                                     )
                                 }
