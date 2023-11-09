@@ -3,7 +3,7 @@ import image from '../img/logo.png'
 
 const Navbar = () => {
   return (
-    <nav className='fixed w-full' >
+    <nav className='fixed w-full z-20' >
       <div className='bg-[#00CDAC] flex justify-between items-center px-10 shadow-xl'>
         <div>
           <a href="https://www.remobie.com/" target="_blank" rel="noopener noreferrer"> <img src={image} alt="logo" className='w-[180px]' /></a>
